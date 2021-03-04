@@ -2,7 +2,7 @@
   <v-app>
     <div id="nav">
       <router-link to="/">Топ исполнителей</router-link> | 
-      <router-link to="/">Топ песен</router-link>
+      <router-link to="/tracks">Топ песен</router-link>
     </div>
     <v-main>
       <router-view/>

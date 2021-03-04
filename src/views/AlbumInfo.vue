@@ -1,5 +1,5 @@
 <template>
   <v-container>
-    top artists
+    album info
   </v-container>
 </template>

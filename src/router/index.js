@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 import PageNotFound from '../views/PageNotFound.vue'
+import TopArtists from '../views/TopArtists.vue'
+import TopTracks from '../views/TopTracks.vue'
+import ArtistInfo from '../views/ArtistInfo.vue'
+import AlbumInfo from '../views/AlbumInfo.vue'
 
 Vue.use(VueRouter)
 
@@ -13,8 +16,23 @@ const routes = [
   },
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'TopArtists',
+    component: TopArtists
+  },
+  {
+    path: '/tracks',
+    name: 'TopTracks',
+    component: TopTracks
+  },
+  {
+    path: '/:artist',
+    name: 'ArtistInfo',
+    component: ArtistInfo
+  },
+  {
+    path: '/:artist/:album',
+    name: 'AlbumInfo',
+    component: AlbumInfo
   },
   {
     path: '/about',
