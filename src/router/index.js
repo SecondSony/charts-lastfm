@@ -25,12 +25,12 @@ const routes = [
     component: TopTracks
   },
   {
-    path: '/:artist',
+    path: '/artist/:artist',
     name: 'ArtistInfo',
     component: ArtistInfo
   },
   {
-    path: '/:artist/:album',
+    path: '/artist/:artist/:album',
     name: 'AlbumInfo',
     component: AlbumInfo
   },
