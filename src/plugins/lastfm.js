@@ -23,10 +23,22 @@ const lastfm = {
 
       return result;
     },
-    async getTopTracks() {
+    async getTopTracks(page, limit) {
+      let result = null;
+      page = (page >= 1 ? page : 1) || 1;
+      limit = (limit >= 15 ? limit : 15) || 15;
+
       await axios.get(
-        `${BASE_URL}?method=chart.gettoptracks&api_key=${API_KEY}&format=json`
-      );
+        `${BASE_URL}?method=chart.gettoptracks&api_key=${API_KEY}&page=${page}&limit=${limit}&format=json`
+        )
+        .then(function(response) {
+          result = response.data.tracks.track;
+        })
+        .catch(function (error) {
+          console.log(error.response);
+        });
+
+        return result;
     },
   },
   artist: {
