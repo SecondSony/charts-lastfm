@@ -51,7 +51,6 @@ const lastfm = {
         )
         .then(function (response) {
           result = response.data.artist;
-          console.log(result);
         })
         .catch(function (error) {
           console.log(error.response)
@@ -70,7 +69,6 @@ const lastfm = {
         )
         .then(function (response) {
           result = response.data.topalbums.album;
-          console.log(result);
         })
         .catch(function (error) {
           console.log(error.response);
@@ -85,10 +83,21 @@ const lastfm = {
     },
   },
   album: {
-    getInfo(artist, album) {
-      axios.get(
-        `${BASE_URL}?method=album.getinfo&api_key=${API_KEY}&artist=${artist}&album=${album}&format=json`
-      );
+    async getInfo(artist, album) {
+      let result = null;
+
+      await axios
+        .get(
+          `${BASE_URL}?method=album.getinfo&api_key=${API_KEY}&artist=${artist}&album=${album}&format=json`
+        )
+        .then(function (response) {
+          result = response.data.album;
+        })
+        .catch(function (error) {
+          console.log(error.response);
+        });
+
+      return result;
     },
   },
 };

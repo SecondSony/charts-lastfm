@@ -24,13 +24,13 @@
     <div class="text-center text-h5 text-uppercase my-6">Топ альбомов исполнителя</div>
 
     <v-row no-gutters justify="center">
-      <v-card v-for="album in albums" :key="album.name" width="250" class="ma-2 rounded-lg" @click="goTo(album.artist.name, album.name)">
+      <v-card v-for="album in albums" :key="album.name" width="250" class="ma-2 rounded-lg" @click="goTo(album.name)">
         <v-img
           :src="album.image[album.image.length-1]['#text']"
           lazy-src="https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png"
           aspect-ratio="1"
         />
-        <v-card-title class="pa-2">{{ album.name }}</v-card-title>
+        <v-card-title class="pa-2">{{ getShorterName(album.name) }}</v-card-title>
         <v-divider />
         <v-card-text class="pa-2 text-caption">Кол-во прослушиваний: {{ album.playcount }}</v-card-text>
         <!-- <v-card-text class="pa-2 text-caption">Кол-во слушателей: ХХХ</v-card-text> -->
@@ -49,12 +49,15 @@ export default {
     }
   },
   methods: {
-    goTo(artistName, albumName) {
-      this.$router.push(`/artist/${artistName}/${albumName}`);
+    getShorterName(name) {
+      return name.length > 50 ? name.substr(0, 47) + "..." : name;
+    },
+    goTo(albumName) {
+      this.$router.push(`/artist/${this.artist.name}/${albumName}`);
     }
   },
   async mounted() {
-    let artistName = this.$route.params.artist.split('+').join(' ');
+    let artistName = this.$route.params.artist;
 
     this.artist = await this.$lastfm.artist.getInfo(artistName);
     this.albums = await this.$lastfm.artist.getTopAlbums(artistName);

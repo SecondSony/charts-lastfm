@@ -31,8 +31,7 @@ export default {
   },
   methods: {
     goTo(artistName) {
-      let name = artistName.split(' ').join('+');
-      this.$router.push(`/artist/${name}`);
+      this.$router.push(`/artist/${artistName}`);
     },
   },
   async mounted() {
