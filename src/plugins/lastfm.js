@@ -42,15 +42,41 @@ const lastfm = {
     },
   },
   artist: {
-    getinfo(artist) {
-      axios.get(
-        `${BASE_URL}?method=artist.getinfo&api_key=${API_KEY}&artist=${artist}&format=json`
-      );
+    async getInfo(name) {
+      let result = null;
+
+      await axios
+        .get(
+          `${BASE_URL}?method=artist.getinfo&api_key=${API_KEY}&artist=${name}&format=json`
+        )
+        .then(function (response) {
+          result = response.data.artist;
+          console.log(result);
+        })
+        .catch(function (error) {
+          console.log(error.response)
+        });
+
+      return result;
     },
-    getTopAlbums() {
-      axios.get(
-        `${BASE_URL}?method=artist.gettopartists&api_key=${API_KEY}&format=json`
-      );
+    async getTopAlbums(name, page, limit) {
+      let result = null;
+      page = (page >= 1 ? page : 1) || 1;
+      limit = (limit >= 15 ? limit : 15) || 15;
+      
+      await axios
+        .get(
+          `${BASE_URL}?method=artist.gettopalbums&api_key=${API_KEY}&artist=${name}&page=${page}&limit=${limit}&format=json`
+        )
+        .then(function (response) {
+          result = response.data.topalbums.album;
+          console.log(result);
+        })
+        .catch(function (error) {
+          console.log(error.response);
+        });
+
+      return result;
     },
     getTopTracks(artist) {
       axios.get(

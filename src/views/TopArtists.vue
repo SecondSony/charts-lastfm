@@ -37,7 +37,6 @@ export default {
   },
   async mounted() {
     this.topArtists = await this.$lastfm.chart.getTopArtists();
-    this.topArtists = this.topArtists.filter((item) => item.name !== "(null)");
   },
 };
 </script>
