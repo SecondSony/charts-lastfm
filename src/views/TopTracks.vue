@@ -54,13 +54,19 @@ export default {
 
       this.topTracks.forEach(el => topNames.push(el.name));
       newPage.forEach(el => newNames.push(el.name));
+
+      if (newPage.length == 0) {
+        $state.complete();
+        return;
+      }
       
       for (let i = 0; i < newPage.length; i++) {
         if (!topNames.includes(newNames[i])) {
           this.topTracks.push(newPage[i]);
         }
       }
-      
+
+      this.topTracks = this.topTracks.filter(item => item.name !== "(null)");
       $state.loaded();
     }
   }

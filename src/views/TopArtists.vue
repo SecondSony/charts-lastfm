@@ -58,12 +58,18 @@ export default {
       this.topArtists.forEach((el) => topNames.push(el.name));
       newPage.forEach((el) => newNames.push(el.name));
 
+      if (newPage.length == 0) {
+        $state.complete();
+        return;
+      }
+
       for (let i = 0; i < newPage.length; i++) {
         if (!topNames.includes(newNames[i])) {
           this.topArtists.push(newPage[i]);
         }
       }
       
+      this.topArtists = this.topArtists.filter(item => item.name !== "(null)");
       $state.loaded();
     }
   }
