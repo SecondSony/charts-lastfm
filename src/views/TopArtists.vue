@@ -19,6 +19,7 @@
         <v-card-text class="pa-2 pt-0 text-caption">Кол-во слушателей: {{ artist.listeners }}</v-card-text>
       </v-card>
     </v-row>
+    <infinite-loading @infinite="infiniteHandler" />
   </v-container>
 </template>
 
@@ -26,16 +27,30 @@
 export default {
   data() {
     return {
-      topArtists: null,
+      topArtists: [],
+      page: 1
     };
   },
   methods: {
     goTo(artistName) {
       this.$router.push(`/artist/${artistName}`);
     },
-  },
-  async mounted() {
-    this.topArtists = await this.$lastfm.chart.getTopArtists();
-  },
+    async infiniteHandler($state) {
+      let newPage = await this.$lastfm.chart.getTopArtists(this.page++);
+      let topNames = [];
+      let newNames = [];
+
+      this.topArtists.forEach(el => topNames.push(el.name));
+      newPage.forEach(el => newNames.push(el.name));
+      
+      for (let i = 0; i < newPage.length; i++) {
+        if (!topNames.includes(newNames[i])) {
+          this.topArtists.push(newPage[i]);
+        }
+      }
+
+      $state.loaded();
+    }
+  }
 };
 </script>
