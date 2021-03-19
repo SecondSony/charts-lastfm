@@ -76,10 +76,21 @@ const lastfm = {
 
       return result;
     },
-    getTopTracks(artist) {
-      axios.get(
-        `${BASE_URL}?method=artist.gettoptracks&api_key=${API_KEY}&artist=${artist}&format=json`
-      );
+    async getTopTracks(name, page, limit) {
+      let result = null;
+      page = (page >= 1 ? page : 1) || 1;
+      limit = (limit >= 15 ? limit : 15) || 15;
+      
+      await axios
+        .get(
+          `${BASE_URL}?method=artist.gettoptracks&api_key=${API_KEY}&artist=${name}&page=${page}&limit=${limit}&format=json`
+        ).then((response) => {
+          result = response.data.toptracks.track;
+        }).catch((error) => {
+          console.log(error.response);
+        });
+
+      return result;
     },
   },
   album: {

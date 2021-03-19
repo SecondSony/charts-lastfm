@@ -1,12 +1,12 @@
 <template>
-  <v-container>
+  <v-container class="px-0">
     <v-row no-gutters justify="center">
       <v-skeleton-loader
-        type="image, article"
+        type="image, card-heading, list-item"
         class="ma-2 rounded-lg" 
         width="250"
-        v-for="track in topTracks"
-        :key="track.artist.name + '_' + track.name"
+        v-for="track in tracks"
+        :key="track.mbid"
         :loading="loading"
       >
         <v-card width="250">
@@ -15,60 +15,64 @@
             lazy-src="https://lastfm.freetls.fastly.net/i/u/34s/2a96cbd8b46e442fc41c2b86b821562f.png"
             aspect-ratio="1"
           />
-          <v-card-subtitle class="pa-2 pb-0">{{ track.artist.name }}</v-card-subtitle>
-          <v-card-title class="pa-2 pt-0">{{ track.name }}</v-card-title>
+          <v-card-title class="pa-2">{{ getShorterName('#' + track['@attr'].rank + ' ' + track.name) }}</v-card-title>
           <v-divider />
           <v-card-text class="pa-2 pb-0 text-caption">Кол-во прослушиваний: {{ track.playcount }}</v-card-text>
           <v-card-text class="pa-2 pt-0 text-caption">Кол-во слушателей: {{ track.listeners }}</v-card-text>
         </v-card>
       </v-skeleton-loader>
     </v-row>
-    <infinite-loading @infinite="infiniteHandler" />
+    <infinite-loading @infinite="infiniteHandler"/>
   </v-container>
 </template>
 
 <script>
 export default {
+  name: 'ArtistTracks',
   data() {
     return {
-      topTracks: [],
+      tracks: [],
       page: 1,
       loading: true
-    };
+    }
   },
   methods: {
+    getShorterName(name) {
+      return name.length > 50 ? name.substr(0, 47) + "..." : name;
+    },
     async infiniteHandler($state) {
       let newPage = null;
       let topNames = [];
       let newNames = [];
       this.loading = true;
 
-      await this.$lastfm.chart
-        .getTopTracks(this.page++)
+      await this.$lastfm.artist
+        .getTopTracks(this.$route.params.artist, this.page++)
         .then((result) => {
           newPage = result;
           this.loading = false;
         }).catch((err) => {
+          this.loading = false;
           console.log(err.response);
         });
 
-      this.topTracks.forEach(el => topNames.push(el.name));
-      newPage.forEach(el => newNames.push(el.name));
+      this.tracks.forEach((el) => topNames.push(el.name));
+      newPage.forEach((el) => newNames.push(el.name));
 
       if (newPage.length == 0) {
         $state.complete();
         return;
       }
-      
+
       for (let i = 0; i < newPage.length; i++) {
         if (!topNames.includes(newNames[i])) {
-          this.topTracks.push(newPage[i]);
+          this.tracks.push(newPage[i]);
         }
       }
 
-      this.topTracks = this.topTracks.filter(item => item.name !== "(null)");
+      this.tracks = this.tracks.filter(item => item.name !== "(null)");
       $state.loaded();
     }
   }
-};
+}
 </script>
