@@ -2,7 +2,7 @@
   <v-container class="px-0">
     <v-row no-gutters justify="center">
       <v-skeleton-loader
-        type="image, card-heading, list-item"
+        type="image, article"
         class="ma-2 rounded-lg" 
         width="250"
         v-for="track in tracks"
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     getShorterName(name) {
-      return name.length > 50 ? name.substr(0, 47) + "..." : name;
+      return name.length > 50 ? name.substr(0, 45) + "..." : name;
     },
     async infiniteHandler($state) {
       let newPage = null;

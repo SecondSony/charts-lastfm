@@ -38,10 +38,10 @@ export default {
   },
   methods: {
     getShorterName(name) {
-      return name.length > 50 ? name.substr(0, 47) + "..." : name;
+      return name.length > 50 ? name.substr(0, 45) + "..." : name;
     },
     goTo(albumName) {
-      this.$router.push(`/artist/${this.artist.name}/${albumName}`);
+      this.$router.push(`/artist/${this.$route.params.artist}/${albumName}`);
     },
     async infiniteHandler($state) {
       let newPage = null;

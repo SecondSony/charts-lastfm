@@ -5,6 +5,7 @@
         <v-col class="flex-grow-1 flex-sm-grow-0">
           <v-img
             :src="artist.image[artist.image.length-1]['#text']"
+            lazy-src="https://lastfm.freetls.fastly.net/i/u/34s/2a96cbd8b46e442fc41c2b86b821562f.png"
             min-width="150"
             min-height="150"
             aspect-ratio="1"

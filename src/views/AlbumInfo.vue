@@ -5,6 +5,7 @@
         <v-col class="flex-grow-1 flex-sm-grow-0">
           <v-img
             :src="album.image[album.image.length-1]['#text']"
+            lazy-src="https://lastfm.freetls.fastly.net/i/u/34s/2a96cbd8b46e442fc41c2b86b821562f.png"
             min-width="150"
             min-height="150"
             aspect-ratio="1"
@@ -13,7 +14,7 @@
         </v-col>
         <v-col>
           <v-card elevation="0">
-            <v-card-subtitle class="pb-0 artist" @click="toArtist()">{{ album.artist }}</v-card-subtitle>
+            <v-btn text @click="toArtist()">{{ album.artist }}</v-btn>
             <v-card-title class="pt-0">{{ album.name }}</v-card-title>
             <v-divider />
             <v-row no-gutters justify="space-between">
@@ -92,9 +93,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.artist:hover {
-  cursor: pointer;
-}
-</style>
